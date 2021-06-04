@@ -21,8 +21,6 @@
   },
   "homepage": "https://github.com/X-Profiler/xprofiler-docker#readme",
   "dependencies": {
-    "dclone": "^1.4.2",
-    "download-git-repo": "^3.0.2",
-    "github-download": "^0.5.0"
+   
   }
 }
