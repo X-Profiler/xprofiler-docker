@@ -1,0 +1,28 @@
+{
+  "name": "xprofiler-docker",
+  "version": "1.0.0",
+  "description": "通过docker快速启动xprofiler",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js",
+    "start": "docker-compose up -d",
+    "down": "docker-compose down",
+    "restart": "docker-compose down -v & docker-compose up -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/X-Profiler/xprofiler-docker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/X-Profiler/xprofiler-docker/issues"
+  },
+  "homepage": "https://github.com/X-Profiler/xprofiler-docker#readme",
+  "dependencies": {
+    "dclone": "^1.4.2",
+    "download-git-repo": "^3.0.2",
+    "github-download": "^0.5.0"
+  }
+}

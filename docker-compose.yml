@@ -1,0 +1,62 @@
+version: "3"
+services:
+  ezm:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - env=value
+    build:
+       context: .
+       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - EGG_SERVER_ENV=prod
+      - EGG_REDIS_DB=0
+      - EGG_REDIS_HOST=redis
+      - EGG_REDIS_PORT=6379
+      - EGG_REDIS_PASSWORD=egg_cnode
+      - EGG_MONGODB_URL=mongodb://egg_cnode:egg_cnode@mongodb:27017/egg_cnode
+      - EGG_MINI_ASSETS=true
+      - EGG_PASSPORT_GITHUB_CLIENT_ID=test
+      - EGG_PASSPORT_GITHUB_CLIENT_SECRET=test
+      # - EGG_SITE_STATIC_HOST=${EGG_SITE_STATIC_HOST}
+      - EGG_ALINODE_APPID=appid
+      - EGG_ALINODE_SECRET=secret
+    depends_on:
+      - redis
+      - mysql
+    networks:
+      - docker_ezm
+    ports:
+      - 7001:7001
+
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server --appendonly yes --requirepass egg_xprofile
+    volumes:
+      - egg-redis:/data
+    networks:
+      - docker_ezm
+    # ports:
+    #   - 6379:6379
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes: # 将容器的目录映射到宿主机上目录中
+      - egg-mysql:/data/db
+      - "./db:/docker-entrypoint-initdb.d/" # 启动时自动执行db下的sql文件
+    ports:
+      - "3306:3306"
+
+volumes:
+  egg-mysql:
+  egg-redis:
+
+networks:
+  docker_ezm:
+    driver: bridge
