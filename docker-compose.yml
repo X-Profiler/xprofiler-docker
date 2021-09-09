@@ -1,0 +1,79 @@
+version: '3'
+
+# mysql 公共配置
+x-mysql-environment: &mysql-environment
+  XPROFILER_CONSOLE_MYSQL_HOST: "172.16.0.2"              # xprofiler-console 数据库配置
+  XPROFILER_CONSOLE_MYSQL_PORT: 3306
+  XPROFILER_CONSOLE_MYSQL_USER: "root"
+  XPROFILER_CONSOLE_MYSQL_PASSWORD: "123456"
+  XPROFILER_CONSOLE_MYSQL_DATABASE: "xprofiler_console"   # xprofiler_console 数据库名称
+  XPROFILER_LOGS_MYSQL_HOST: "172.16.0.2"                 # xprofiler-logs 数据库配置
+  XPROFILER_LOGS_MYSQL_PORT: 3306                         
+  XPROFILER_LOGS_MYSQL_USER: "root"                       
+  XPROFILER_LOGS_MYSQL_PASSWORD: "123456"                 
+  XPROFILER_LOGS_MYSQL_DATABASE: "xprofiler_logs"         # xprofiler_logs 数据库名称
+
+# redis 公共配置
+x-redis-environment: &redis-environment
+  REDIS_HOST: "172.16.0.3"
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: "123456"
+  REDIS_DB: 0
+
+# mailer 公共配置
+x-mailer-environment: &mailer-environment
+  MAILER_HOST: ""
+  MAILER_PORT: 25
+  MAILER_SECURE: "true"
+  MAILER_AUTH_USER: ""
+  MAILER_AUTH_PASS: ""
+
+services: 
+  xprofiler-console:
+    container_name: xprofiler-console
+    image: dq198/xprofiler-console:v1.0.0
+    hostname: xprofiler-console
+    restart: always
+    # cpus: 1  # 1核 cpu
+    # mem_limit: 200m  # 200MB 内存
+    # command: "./node_modules/.bin/egg-scripts start --workers=4 --port=8443"
+    ports: 
+      - 8443:8443
+    environment: 
+      <<: *mysql-environment
+      <<: *redis-environment
+      XPROFILER_CONSOLE_URL: "http://10.43.190.162:8443"   # xprofiler-console 服务地址，这里可以配宿主机服务器地址
+      XTRANSIT_MANAGER_URL: http://xtransit-manager:8543       # xtransit-manager 服务地址
+
+  xtransit-manager:
+    container_name: xtransit-manager
+    image: dq198/xtransit-manager:v1.0.0
+    hostname: xtransit-manager
+    restart: always
+    # cpus: 1
+    # mem_limit: 200m
+    ports: 
+      - 8543:8543
+    environment: 
+      <<: *mysql-environment
+      <<: *redis-environment
+      <<: *mailer-environment
+      XPROFILER_CONSOLE_URL: "http://xprofiler-console:8443"   # xtransit-manager 服务地址
+
+  xtransit-server:
+    container_name: xtransit-server
+    image: dq198/xtransit-server:v1.0.0
+    restart: always
+    hostname: xtransit-server
+    # cpus: 1
+    # mem_limit: 200m
+    ports: 
+      - 9090:9090
+    environment: 
+      XTRANSIT_MANAGER_URL: http://xtransit-manager:8543      # xtransit-manager 服务地址
+
+# 可以不用配置 networks，也可以自行创建配置
+networks:
+  default: 
+    external:
+      name: dq-network          
