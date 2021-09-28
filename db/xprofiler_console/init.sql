@@ -1,4 +1,8 @@
 -- database: xprofiler_console
+-- CREATE DATABASE If NOT EXISTS `xprofiler_console` CHARACTER SET UTF8;
+CREATE DATABASE `xprofiler_console` CHARACTER SET UTF8;
+
+USE xprofiler_console;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`(
@@ -110,3 +114,4 @@ CREATE TABLE `contacts`(
   UNIQUE KEY (`strategy`, `user`),
   INDEX (`strategy`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'strategy contacts info table';
+
