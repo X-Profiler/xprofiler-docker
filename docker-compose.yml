@@ -102,9 +102,3 @@ services:
       - xtransit-redis
     environment: 
       XTRANSIT_MANAGER_URL: http://xtransit-manager:8543      # xtransit-manager 服务地址
-
-# 可以不用配置 networks，也可以自行创建配置
-networks:
-  default: 
-    external:
-      name: dq-network          
