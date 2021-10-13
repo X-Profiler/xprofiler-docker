@@ -1,4 +1,5 @@
 -- database: xprofiler_logs
+
 USE xprofiler_logs;
 
 -- daily process

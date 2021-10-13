@@ -1,4 +1,5 @@
 -- database: xprofiler_logs
+
 -- CREATE DATABASE If NOT EXISTS `xprofiler_logs` CHARACTER SET UTF8;
 CREATE DATABASE `xprofiler_logs` CHARACTER SET UTF8;
 
