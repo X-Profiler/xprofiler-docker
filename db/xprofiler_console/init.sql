@@ -1,5 +1,10 @@
 -- database: xprofiler_console
 
+-- CREATE DATABASE If NOT EXISTS `xprofiler_console` CHARACTER SET UTF8;
+CREATE DATABASE `xprofiler_console` CHARACTER SET UTF8;
+
+USE xprofiler_console;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`(
   `id` INT UNSIGNED AUTO_INCREMENT COMMENT 'unique auto increment id',
