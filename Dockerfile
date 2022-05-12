@@ -7,9 +7,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 WORKDIR /easy-monitor
 
-RUN git clone https://github.com/X-Profiler/xprofiler-console.git
-RUN git clone https://github.com/X-Profiler/xtransit-manager.git
-RUN git clone https://github.com/X-Profiler/xtransit-server.git
+RUN git clone https://ghproxy.com/https://github.com/X-Profiler/xprofiler-console.git
+RUN git clone https://ghproxy.com/https://github.com/X-Profiler/xtransit-manager.git
+RUN git clone https://ghproxy.com/https://github.com/X-Profiler/xtransit-server.git
 
 RUN cd ./xprofiler-console && npm install \
     && cd ../xtransit-manager && npm install \

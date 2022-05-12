@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = () => {
+module.exports = appInfo => {
   const config = {};
 
-  config.xtransitManager = 'http://127.0.0.1:7543';
+  config.keys = appInfo.name + '_1588763650298_5886';
 
   config.agentKey = Symbol('XTRANSIT::ID');
 
@@ -13,9 +13,32 @@ module.exports = () => {
 
   config.httpTimeout = 15000;
 
-  config.security = {
+  config.channelMessageToApp = 'XPROFILER::CHANNEL_MESSAGE_TO_APP';
+
+  config.errorCode = {
+    expired: 'XPROFILER_EXPIRED',
+    noClient: 'XPROFILER_NO_CLIENT',
+  };
+
+  config.secure = {
     secret: 'easy-monitor::xprofiler',
   };
 
-  return config;
+  config.security = {
+    csrf: {
+      ignore: [
+        '/xapi',
+      ],
+    },
+  };
+
+  // user config
+  const userConfig = {};
+
+  userConfig.xtransitManager = 'http://127.0.0.1:7543';
+
+  return {
+    ...config,
+    ...userConfig,
+  };
 };
