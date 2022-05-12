@@ -6,14 +6,12 @@ set -e
 
 redis-server &
 
-npm install -g pm2
-
-while [ netstat -plnt |grep 3306|wc -l -eq 0 ]; do
+while [ $(netstat -plnt |grep 3306|wc -l) -eq 0 ]; do
   echo "Waiting for mysql to start..."
   sleep 1
 done
 
-while [ netstat -plnt |grep 6379|wc -l -eq 0 ]; do
+while [ $(netstat -plnt |grep 6379|wc -l) -eq 0 ]; do
   echo "Waiting for redis to start..."
   sleep 1
 done
